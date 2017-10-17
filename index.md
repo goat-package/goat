@@ -291,6 +291,74 @@ The following code instantiates a serving node
 	    go goat.NewClusterNode(port, messageQueueAddress, freshMidAddress, registrationAddress).Work(0, chnTimeout)
 	    <-chnTimeout
 	}
+	
+### Ring infrastructure
+In this infrastructure, the serving nodes are connected between each other in a ring fashion. Each serving node has a next node, and it is the next node for some serving node. When a new component joins the infrastructure, its agent contacts the registration node. The registration node assigns the agent to a serving node. When the agent forwards a message, it sends the message to the associated serving node. The serving node forwards the message to the other agents assigned to it and to the next node. Each node forwards the message it receives to its agent and to its next node. When the message reaches the first node that forwarded it, it is discarded. This procedure removes the requirement of a centralised message queue. However, the issuance of the message ids is still performed by a single node.
+
+The following image depicts how the registration procedure works:
+
+![Ring infrastructure: registration procedure](ring_reg.svg)
+
+The following image depicts how messages flow:
+
+![Ring infrastructure: message flows](ring_connetion.svg)
+
+The following image depicts how a message is spread along the infrastructure when sent from an agent:
+
+![Ring infrastructure: message speading](ring_msg.svg)
+
+Summarising, to create a ring you need:
+* a node that handles the registration procedure;
+* a node that provides fresh message ids upon request;
+* a set of serving nodes connected in a ring fashion.
+
+The following code is used to instantiate the registration node
+
+	package main
+
+	import (
+	    "goat-plugin/goat/goat"
+	)
+
+	func main(){
+	    port := 17000
+	    nodesAddresses := []string{} // list of all the serving nodes in the cluster
+	    chnTimeout := make(chan struct{})
+	    go goat.NewRingAgentRegistration(port, nodesAddresses).Work(0, chnTimeout)
+	    <-chnTimeout
+	}
+
+The following code instantiates the provider of fresh message ids
+
+	package main
+
+	import (
+	    "goat-plugin/goat/goat"
+	)
+
+	func main(){
+	    port := 17001
+	    chnTimeout := make(chan struct{})
+	    go goat.NewClusterCounter(port).Work(0, chnTimeout)
+	    <-chnTimeout
+	}
+
+The following code instantiates a serving node
+
+	package main
+
+	import (
+	    "goat-plugin/goat/goat"
+	)
+
+	func main(){
+	    port := 17002
+	    chnTimeout := make(chan struct{})
+	    freshMidAddress := "..."
+	    nextNodeAddress := "..."
+	    go goat.NewRingNode(port, freshMidAddress, nextNodeAddress).Work(0, chnTimeout)
+	    <-chnTimeout
+	}
 
 ## Installing GoAt
 TODO
