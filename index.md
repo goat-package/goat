@@ -292,6 +292,8 @@ The following code instantiates a serving node
 	    <-chnTimeout
 	}
 	
+Components can connect to the infrastructure by calling `goat.NewClusterAgent("<messageQueueAddress>:<port>", "<registrationAddress>:<port>")` with the address of the message queue node and the registration node with the ports provided (here 17001 and 17000).
+	
 ### Ring infrastructure
 In this infrastructure, the serving nodes are connected between each other in a ring fashion. Each serving node has a next node, and it is the next node for some serving node. When a new component joins the infrastructure, its agent contacts the registration node. The registration node assigns the agent to a serving node. When the agent forwards a message, it sends the message to the associated serving node. The serving node forwards the message to the other agents assigned to it and to the next node. Each node forwards the message it receives to its agent and to its next node. When the message reaches the first node that forwarded it, it is discarded. This procedure removes the requirement of a centralised message queue. However, the issuance of the message ids is still performed by a single node.
 
@@ -359,6 +361,8 @@ The following code instantiates a serving node
 	    go goat.NewRingNode(port, freshMidAddress, nextNodeAddress).Work(0, chnTimeout)
 	    <-chnTimeout
 	}
+
+Components can connect to the infrastructure by calling `goat.NewRingAgent("<registrationAddress>:<port>")` with the address of the registration node and the listening port provided (here 17000).
 
 ## Installing GoAt
 TODO
