@@ -217,7 +217,8 @@ Components can connect to the infrastructure by calling `goat.NewSingleServerAge
 ### Cluster infrastructure
 This infrastructure has:
 * a node that handles the registration procedure; it informs each serving node that a new component is available;
-* a node that handles the message queue and provides fresh message ids upon request; the serving nodes share that message queue
+* a node that handles the message queue; the serving nodes share that message queue;
+* a node that provides fresh message ids upon request;
 * a set of serving nodes; they pick a message from the shared queue and distribute it to each registered components.
 The following image depicts the registration procedure:
 
@@ -229,20 +230,67 @@ The following image depicts how messages are exchanged:
 
 The following code is used to instantiate the registration node
 
-    package main
+	package main
 
-    import (
-        "goat-plugin/goat/goat"
-    )
+	import (
+	    "goat-plugin/goat/goat"
+	)
 
-    func main(){
-        port := 17000
-        nodesAddresses = []string{....} // list of all the serving nodes in the cluster
-        goat.NewClusterAgentRegistration(port, "<messageQueueAddress>:<mqPort>", nodesAddresses) 
-        <-make(chan struct{})
-    }
+	func main(){
+	    port := 17000
+	    nodesAddresses := []string{} // list of all the serving nodes in the cluster
+	    chnTimeout := make(chan struct{})
+	    go goat.NewClusterAgentRegistration(port, "<messageQueueAddress>:<mqPort>", nodesAddresses).Work(0, chnTimeout)
+	    <-chnTimeout
+	}
 
-The following code instantiates the queue
+The following code instantiates the message queue
+
+	package main
+
+	import (
+	    "goat-plugin/goat/goat"
+	)
+
+	func main(){
+	    port := 17001
+	    chnTimeout := make(chan struct{})
+	    go goat.NewClusterMessageQueue(port).Work(0, chnTimeout)
+	    <-chnTimeout
+	}
+	
+The following code instantiates the provider of fresh message ids
+
+	package main
+
+	import (
+	    "goat-plugin/goat/goat"
+	)
+
+	func main(){
+	    port := 17002
+	    chnTimeout := make(chan struct{})
+	    go goat.NewClusterCounter(port).Work(0, chnTimeout)
+	    <-chnTimeout
+	}
+
+The following code instantiates a serving node
+
+	package main
+
+	import (
+	    "goat-plugin/goat/goat"
+	)
+
+	func main(){
+	    port := 17003
+	    chnTimeout := make(chan struct{})
+	    messageQueueAddress := "..."
+	    freshMidAddress := "..."
+	    registrationAddress := "..."
+	    go goat.NewClusterNode(port, messageQueueAddress, freshMidAddress, registrationAddress).Work(0, chnTimeout)
+	    <-chnTimeout
+	}
 
 ## Installing GoAt
 TODO
