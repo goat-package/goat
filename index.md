@@ -382,6 +382,59 @@ The following image depicts how a message id request is carried out:
 The following image depicts how a message is spread along the infrastructure when sent from an agent:
 
 ![Tree infrastructure: message speading](tree_msg.svg)
+
+The following code is used to instantiate the registration node
+
+	package main
+
+	import (
+	    "goat-plugin/goat/goat"
+	)
+
+	func main(){
+	    port := 17000
+	    nodesAddresses := []string{} // list of all the serving nodes in the cluster
+	    chnTimeout := make(chan struct{})
+	    go goat.NewTreeAgentRegistration(port, nodesAddresses).Work(0, chnTimeout)
+	    <-chnTimeout
+	}
+
+The following code instantiates the root node
+
+	package main
+
+	import (
+	    "goat-plugin/goat/goat"
+	)
+
+	func main(){
+	    port := 17001
+	    chnTimeout := make(chan struct{})
+	    childNodesAddresses := []string{...}
+	    go goat.NewTreeNode(port, "", childNodesAddresses).Work(0, chnTimeout)
+	    <-chnTimeout
+	}
+	
+
+The following code instantiates the a non-root serving node
+
+	package main
+
+	import (
+	    "goat-plugin/goat/goat"
+	)
+
+	func main(){
+	    port := 17002
+	    chnTimeout := make(chan struct{})
+	    childNodesAddresses := []string{}
+	    parentAddress := ...
+	    go goat.NewTreeNode(port, parentAddress, childNodesAddresses).Work(0, chnTimeout)
+	    <-chnTimeout
+	}
+
+Components can connect to the infrastructure by calling `goat.NewTreeAgent("<registrationAddress>:<port>")` with the address of the registration node and the listening port provided (here 17000).
+
 ## Installing GoAt
 TODO
 
