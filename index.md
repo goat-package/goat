@@ -303,7 +303,7 @@ The following image depicts how the registration procedure works:
 
 The following image depicts how messages flow:
 
-![Ring infrastructure: message flows](ring_connetion.svg)
+![Ring infrastructure: message flows](ring_connection.svg)
 
 The following image depicts how a message is spread along the infrastructure when sent from an agent:
 
@@ -364,6 +364,24 @@ The following code instantiates a serving node
 
 Components can connect to the infrastructure by calling `goat.NewRingAgent("<registrationAddress>:<port>")` with the address of the registration node and the listening port provided (here 17000).
 
+### Tree infrastructure
+In this infrastructure, the serving nodes are connected in a tree fashion. Each node (apart from one, called _root_) is connected to another serving node called _parent_. Each agent, to join the infrastructure, asks to the registration node to be associated with a serving node. When an agent wants to send a message, it asks to the associated node for a message id. Each node forwards the request for a new message id to its parent, unless it is the root. Then, the root assigns a fresh message id and forwards it to the child where the request came from. The message id is forwarded along the same path of the request (but in reversed order) so that the agent eventually receives it. After that, the agent emits the message to be sent (with the id it got). The message is sent to the associated serving node. Each node forwards the message to each node or agent associated with it but the node/agent where the message comes from. This infrastructure lifts the requrement of a special node that assigns message ids, as this task is performed by the root. It is easy to see that each message is delivered exactly once to each agent connected to the infrastructure (but the sender).
+
+The following image depicts how the registration procedure works:
+
+![Tree infrastructure: registration procedure](tree_reg.svg)
+
+The following image depicts how nodes interact:
+
+![Tree infrastructure: nodes interaction](ring_connection.svg)
+
+The following image depicts how a message id request is carried out:
+
+![Tree infrastructure: message id request](tree_mid.svg)
+
+The following image depicts how a message is spread along the infrastructure when sent from an agent:
+
+![Tree infrastructure: message speading](tree_msg.svg)
 ## Installing GoAt
 TODO
 
