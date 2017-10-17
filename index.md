@@ -196,7 +196,7 @@ This is the simplest infrastructure: only one node that receives and dispatches 
 
 ![Single server](single_server.svg)
 
-Actually, this type of infrastructure was implemented only for debugging purpouses, as it clearly does not scale, having only one central node. However, it can be instantiated with:
+This type of infrastructure does not scale, since it has only one central node. It was implemented only for debugging purpouses. It can be instantiated with:
 
     package main
 
@@ -216,9 +216,9 @@ Components can connect to the infrastructure by calling `goat.NewSingleServerAge
 
 ### Cluster infrastructure
 This infrastructure has:
-* a node that handles the registration procedure, that is informs each serving node that a new component is available;
+* a node that handles the registration procedure; it informs each serving node that a new component is available;
 * a node that handles the message queue and provides fresh message ids upon request; the serving nodes share that message queue
-* a set of serving nodes, whose role is to pick a message from the shared queue and distribute it to all the registered components.
+* a set of serving nodes; they pick a message from the shared queue and distribute it to each registered components.
 The following image depicts the registration procedure:
 
 ![Cluster infrastructure: registration procedure](cluster_reg.svg)
