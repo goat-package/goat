@@ -84,7 +84,15 @@ This statement sends the message (the tuple `{expr1, expr2, ..., exprn}`) to any
 
 > **Note 1:** Make sure that the component or local attributes you are referring exist. Otherwise, the component will crash at runtime.
 
-> **Note 2:** Instead, you may refer to receiver attributes that do not exist on other component. In that case, the attribute is considered to be neither equal, greater, littler, different than anything and neither true or false. 
+> **Note 2:** `pred` may refer to receiver attributes that do not exist on other component. In that case, the attribute is considered to be neither equal, greater, littler, different than anything and neither true or false. 
+>
 > For example, assuming that the receiver does not have the attribute x, the predicate `receiver.x == v || receiver.x != v` is always false no matter which is the value of v. Otherwise, if attribute x is defined and has the same type of v, the predicate is always true.
 
+The `[attr1 := expr_a1, attr2 := expr_a2, ..., attrm := expr_am]` part updates the component or local attributes to the evaluation of the corresponding expressions. This part can be omitted if the attributes do not change.
+
+`print("output")` prints on the standard output the specified string after sending the message. Inside the string, it is possible to get the value of a local attribute (e.g. `x`) by writing its name between dollar signs (e.g. `$x$`). It is possible to get the value of a component attribute (e.g. `a`) by writing its name prefixed with `comp.` between dollar signs (e.g. `$comp.a$`). Even this part is optional, and if omitted after the send nothing will be printed out.
+
+> **Note 3:** The print part is to be used only for debugging purpouses. The printing format might change in the future.
+
+#### `receive`
 
