@@ -77,5 +77,8 @@ process P {
 
 #### `send`
 The `send` statement is used to send a message. Its syntax is 
+
 ```send{expr1, expr2, ..., exprn} @ (pred) [attr1 := expr_a1, attr2 := expr_a2, ..., attrm := expr_am] print("output");```
+
 This statement sends the message (the tuple `{expr1, expr2, ..., exprn}`) to any component satisfying the predicate `pred`. In the expressions `expr_i` it is possible to use component attributes and local attributes. They can be accessed by prepending `comp.` or `proc.` to the name of the attribute. 
+> **Note:** Make sure that the attributes you are referring exist. Otherwise, the component will crash.
