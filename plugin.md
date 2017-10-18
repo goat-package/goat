@@ -80,7 +80,7 @@ The `send` statement is used to send a message. Its syntax is
 
 ```send{expr1, expr2, ..., exprn} @ (pred) [attr1 := expr_a1, attr2 := expr_a2, ..., attrm := expr_am] print("output");```
 
-This statement sends the message (the tuple `{expr1, expr2, ..., exprn}`) to any component satisfying the predicate `pred`. In the expressions `expr_i` it is possible to use component attributes and local attributes. They can be accessed by prepending `comp.` or `proc.` to the name of the attribute. Each component but the sender, evaluates the `pred` predicate (i.e. a boolean expression): the message is accepted if and only if `pred` evaluates to true. `pred` can refer to receiver attributes by prepending `receiver.` to its name.
+This statement sends the message (the tuple `{expr1, expr2, ..., exprn}`) to any component satisfying the predicate `pred`. Any message received while a process is sending is discarded, i.e. subsequent `receive`s from the same process will not perceive those messages. In the expressions `expr_i` it is possible to use component attributes and local attributes. They can be accessed by prepending `comp.` or `proc.` to the name of the attribute. Each component but the sender, evaluates the `pred` predicate (i.e. a boolean expression): the message is accepted if and only if `pred` evaluates to true. `pred` can refer to receiver attributes by prepending `receiver.` to its name.
 
 > **Note 1:** Make sure that the component or local attributes you are referring exist. Otherwise, the component will crash at runtime.
 
@@ -95,4 +95,4 @@ The `[attr1 := expr_a1, attr2 := expr_a2, ..., attrm := expr_am]` part updates t
 > **Note 3:** The print part is to be used only for debugging purpouses. The printing format might change in the future.
 
 #### `receive`
-
+The `receive` statement is used to receive a message. It has two possible syntaxes:
