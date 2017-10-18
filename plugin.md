@@ -80,8 +80,11 @@ The `send` statement is used to send a message. Its syntax is
 
 ```send{expr1, expr2, ..., exprn} @ (pred) [attr1 := expr_a1, attr2 := expr_a2, ..., attrm := expr_am] print("output");```
 
-This statement sends the message (the tuple `{expr1, expr2, ..., exprn}`) to any component satisfying the predicate `pred`. In the expressions `expr_i` it is possible to use component attributes and local attributes. They can be accessed by prepending `comp.` or `proc.` to the name of the attribute. 
+This statement sends the message (the tuple `{expr1, expr2, ..., exprn}`) to any component satisfying the predicate `pred`. In the expressions `expr_i` it is possible to use component attributes and local attributes. They can be accessed by prepending `comp.` or `proc.` to the name of the attribute. Each component but the sender, evaluates the `pred` predicate (i.e. a boolean expression): the message is accepted if and only if `pred` evaluates to true. `pred` can refer to receiver attributes by prepending `receiver.` to its name.
 
-The 
 > **Note 1:** Make sure that the component or local attributes you are referring exist. Otherwise, the component will crash at runtime.
-> **Note 2:** Instead, you may refer to receiver attributes that do not exist on other component. 
+
+> **Note 2:** Instead, you may refer to receiver attributes that do not exist on other component. In that case, the attribute is considered to be neither equal, greater, littler, different than anything and neither true or false. 
+> For example, assuming that the receiver does not have the attribute x, the predicate `receiver.x == v || receiver.x != v` is always false no matter which is the value of v. Otherwise, if attribute x is defined and has the same type of v, the predicate is always true.
+
+
