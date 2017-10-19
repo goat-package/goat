@@ -249,3 +249,18 @@ In attribute updates, predicates and message parts, it is possible to use values
 | `++` (concatenation) | `string` | `string` |
 
 There is also the unary operator `!` that negates a `bool`.
+
+It is also possible to define functions, to be used in expressions. The function syntax is:
+
+```
+function type name (type param1, type param2, ...) {
+  ... function statements ...
+}
+```
+The avaliable statements are:
+* variable declaration: `var name = expr` where the variable's type is inferred from `expr`;
+* assignment to variables: `name = expr`;
+* return: `return expr`;
+* condition: `if ... else if ... else` whose behavior is the standard one.
+
+Inside function is possible to use expressions that refer to parameters or variables. It is also possible to use function calls (even recursive ones).
