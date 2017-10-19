@@ -281,63 +281,64 @@ infrastructure_type name {
 ```
 The following table contains the list of parameters.
 
+
 <table>
   <tr>
     <th>Infrastructure</th>
-    <th>`infrastructure_type`<br></th>
-    <th>`param`</th>
-    <th>`value`</th>
+    <th><code>infrastructure_type</code></th>
+    <th><code>param</code></th>
+    <th><code>value</code></th>
   </tr>
   <tr>
     <td rowspan="2">Centralized</td>
-    <td rowspan="2">`singleserver`</td>
-    <td>`server`</td>
-    <td>Address and port of the server, e.g. "127.0.0.1:14000"<br></td>
+    <td rowspan="2"><code>singleserver</code></td>
+    <td><code>server</code></td>
+    <td>Address and port of the server, e.g. "127.0.0.1:14000"</td>
   </tr>
   <tr>
-    <td>`timeout`</td>
-    <td>Number of milliseconds without any interaction after which the server terminates. Optional. If not specified, it means infinite.<br></td>
+    <td><code>timeout</code></td>
+    <td>Number of milliseconds without any interaction after which the server terminates. Optional. If not specified, it means infinite.</td>
   </tr>
   <tr>
     <td rowspan="4">Cluster</td>
-    <td rowspan="4">`cluster`</td>
-    <td>`message_queue`</td>
+    <td rowspan="4"><code>cluster</code></td>
+    <td><code>message_queue</code></td>
     <td>Address and port of the message queue, e.g. "127.0.0.1:14000".</td>
   </tr>
   <tr>
-    <td>`registration`</td>
+    <td><code>registration</code></td>
     <td>Address and port of the registration node, e.g. "127.0.0.1:14000".</td>
   </tr>
   <tr>
-    <td>`mid_assigner`</td>
+    <td><code>mid_assigner</code></td>
     <td>Address and port of the node that assigns fresh message ids, e.g. "127.0.0.1:14000".</td>
   </tr>
   <tr>
-    <td>`nodes`</td>
-    <td>List of serving nodes in the cluster, e.g. ["127.0.0.1:14000", "127.0.0.1:14001"]<br></td>
+    <td><code>nodes</code></td>
+    <td>List of serving nodes in the cluster, e.g. ["127.0.0.1:14000", "127.0.0.1:14001"]</td>
   </tr>
   <tr>
     <td rowspan="3">Ring</td>
-    <td rowspan="3">`ring`</td>
-    <td>`registration`</td>
+    <td rowspan="3"><code>ring</code></td>
+    <td><code>registration</code></td>
     <td>Address and port of the registration node, e.g. "127.0.0.1:14000".</td>
   </tr>
   <tr>
-    <td>`mid_assigner`</td>
+    <td><code>mid_assigner</code></td>
     <td>Address and port of the node that assigns fresh message ids, e.g. "127.0.0.1:14000".</td>
   </tr>
   <tr>
-    <td>`nodes`</td>
-    <td>List of serving nodes in the ring in order, e.g. ["127.0.0.1:14000", "127.0.0.1:14001"]. The *i* th node's next is the *i+1* th in the list. The last node's next is the first one.<br></td>
+    <td><code>nodes</code></td>
+    <td>List of serving nodes in the ring in order, e.g. ["127.0.0.1:14000", "127.0.0.1:14001"]. The i th node's next is the (i+1) th in the list. The last node's next is the first one.</td>
   </tr>
   <tr>
     <td rowspan="2">Tree</td>
-    <td rowspan="2">`tree`</td>
-    <td>`registration`</td>
+    <td rowspan="2"><code>tree</code></td>
+    <td><code>registration</code></td>
     <td>Address and port of the registration node, e.g. "127.0.0.1:14000".</td>
   </tr>
   <tr>
-    <td>`nodes`</td>
+    <td><code>nodes</code></td>
     <td>Depth-first visit of the tree. E.g. "127.0.0.1:14000" [ "127.0.0.1:14001" [ "127.0.0.1:14002", "127.0.0.1:14003"], "127.0.0.1:14004" ], where the root is "127.0.0.1:14000" and its children are "127.0.0.1:14001" and "127.0.0.1:14004".</td>
   </tr>
 </table>
