@@ -264,3 +264,80 @@ The avaliable statements are:
 * condition: `if ... else if ... else` whose behavior is the standard one.
 
 Inside function is possible to use expressions that refer to parameters or variables. It is also possible to use function calls (even recursive ones).
+
+## Patterns
+TODO
+
+## Defining infrastructures
+This section describes how to define infrastructure in `.ginf` files. Infrastructures are what make the components actually communicate. Their role is to distribute messages from a component to all the others. There are four types of infrastructures: centralized, cluster, ring and tree. The syntax of a `.ginf` file is:
+
+```
+infrastructure_type name {
+  param : value,
+  param : value,
+  ...
+  param : value
+}
+```
+The following table contains the list of parameters.
+
+<table>
+  <tr>
+    <th>Infrastructure</th>
+    <th>`infrastructure_type`<br></th>
+    <th>`param`</th>
+    <th>`value`</th>
+  </tr>
+  <tr>
+    <td rowspan="2">Centralized</td>
+    <td rowspan="2">`singleserver`</td>
+    <td>`server`</td>
+    <td>Address and port of the server, e.g. "127.0.0.1:14000"<br></td>
+  </tr>
+  <tr>
+    <td>`timeout`</td>
+    <td>Number of milliseconds without any interaction after which the server terminates. Optional. If not specified, it means infinite.<br></td>
+  </tr>
+  <tr>
+    <td rowspan="4">Cluster</td>
+    <td rowspan="4">`cluster`</td>
+    <td>`message_queue`</td>
+    <td>Address and port of the message queue, e.g. "127.0.0.1:14000".</td>
+  </tr>
+  <tr>
+    <td>`registration`</td>
+    <td>Address and port of the registration node, e.g. "127.0.0.1:14000".</td>
+  </tr>
+  <tr>
+    <td>`mid_assigner`</td>
+    <td>Address and port of the node that assigns fresh message ids, e.g. "127.0.0.1:14000".</td>
+  </tr>
+  <tr>
+    <td>`nodes`</td>
+    <td>List of serving nodes in the cluster, e.g. ["127.0.0.1:14000", "127.0.0.1:14001"]<br></td>
+  </tr>
+  <tr>
+    <td rowspan="3">Ring</td>
+    <td rowspan="3">`ring`</td>
+    <td>`registration`</td>
+    <td>Address and port of the registration node, e.g. "127.0.0.1:14000".</td>
+  </tr>
+  <tr>
+    <td>`mid_assigner`</td>
+    <td>Address and port of the node that assigns fresh message ids, e.g. "127.0.0.1:14000".</td>
+  </tr>
+  <tr>
+    <td>`nodes`</td>
+    <td>List of serving nodes in the ring in order, e.g. ["127.0.0.1:14000", "127.0.0.1:14001"]. The *i* th node's next is the *i+1* th in the list. The last node's next is the first one.<br></td>
+  </tr>
+  <tr>
+    <td rowspan="2">Tree</td>
+    <td rowspan="2">`tree`</td>
+    <td>`registration`</td>
+    <td>Address and port of the registration node, e.g. "127.0.0.1:14000".</td>
+  </tr>
+  <tr>
+    <td>`nodes`</td>
+    <td>Depth-first visit of the tree. E.g. "127.0.0.1:14000" [ "127.0.0.1:14001" [ "127.0.0.1:14002" "127.0.0.1:14003"] "127.0.0.1:14004" ], where the root is "127.0.0.1:14000" and its children are "127.0.0.1:14001" and "127.0.0.1:14004".</td>
+  </tr>
+</table>
