@@ -90,5 +90,5 @@ We provide two possible ways to implement system:
 * using the GoAt library directly and the Go language; [tutorial](library.md)
 
 ## How to use GoAt
-To use GoAt, there is a fully configured virtual machine with all the tools needed properly set up.
-LINK VM
+To use GoAt, there is a fully configured [virtual machine](https://drive.google.com/open?id=0B9zaHQRMT9M3d3pIbFhQRkpQYlU
+) with all the tools needed properly set up.
