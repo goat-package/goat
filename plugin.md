@@ -74,6 +74,9 @@ process P {
 }
 ```
 `P` is the name of the process. The statements are executed one after another, and when the last statement terminates the process terminates. The available statements are: `send`, `receive`, `waitfor`, `set`, `if`, `call`, `spawn` and `loop`.
+It is also possible to define a process as the parallel composition of a set of processes, using:
+
+```process P = P1 | P2 | ... | Pn`
 
 #### `send`
 The `send` statement is used to send a message. Its syntax is 
@@ -217,3 +220,31 @@ spawn(P)
 ```
 
 `P` is the name of a process. `P` will inherit a copy of the set of local attributes of the current process. The current process and the process just created will run concurrently on the same component. As any other pair of process, they share component attributes but not the set of local attributes.
+
+### Environment
+The environment is defined as:
+`environment E {
+  attr := immediate,
+  attr := immediate,
+  ....
+  attr := immediate
+}`
+
+### Component
+The component is defined as:
+
+`component E : P`
+
+`E` is an environment; it is a name of a defined environment or it can be replaced by the set of attributes and values. `P` is the name of a process or the parallel composition of a set of processes or a process definition.
+
+### Functions and expressions
+In attribute updates, predicates and message parts, it is possible to use values that depend on attributes. To describe them it is possible to use an expression language. The expressions are typed, and three types are defined: integers (`int`), booleans (`bool`) and strings (`string`). The operation defined are: 
+| Operators | Applicable types | Return type |
+|---|---|---|
+| `<`, `<=`, `>`, `>=` | `int`, `string` | `bool` |
+| `==`, `!=` | `int`, `string`, `bool` | `bool` |
+| `&&` , `||` | `bool` | `bool` |
+| `+`, `-`, `*`, `/`, `%` | `int` | `int` |
+| `++` (concatenation) | `string` | `string` |
+
+There is also the unary operator `!` that negates a `bool`.
