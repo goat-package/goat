@@ -171,6 +171,34 @@ loop {
 ```
 
 #### `if`
+The `if` statement executes different codes according to the state of the attributes. Its syntax is:
+
+```
+if (cond1) {
+  send/receive/set
+  ...statements1...
+} else if (cond2) {
+  send/receive/set
+  ...statements2...
+} 
+....
+else {
+  send/receive/set
+  ...statements_e...
+}
+```
+
+It is similar to the `if ... else if ... else` construct in imperative languages. It considers the first branch whose condition is satisfied; then it tries to execure the first statement. Depending on first statement of the block:
+* if it is a `send`, it sends the message and then executes the rest of the block;
+* if it is a `receive` and the first message received is accepted, it executes the rest of the block;
+* if it is a `receive` and the first message received is not accepted, it waits for a change in the environment or a new message and retries the *whole* if statement;
+* if it is a `set`, it updates the environment and then executes the rest of the block.
+
+If none of the condition are satisfied, it executes the `else` block if available, otherwise it waits for a change in the environment or a new message and retries the whole if statement.
+
+> **Tip:** in a block, if you do not want to change the environment nor send or receive messages, you can use `set;` as the first statement. Note that the `set` statement discards messages during its execution.
+
+> **Note:** Unlike (many) imperative languages where an `if` without an `else` whose condition is not satisfied behaves as having an empty else branch, in GoAt blocks the execution of the process. The classical behaviour is re-establish by using `else{ set; }`. Pay attention that the `set` statement discards messages during its execution.
 
 #### `call`
 The `call` statement executes the code of another process. Its syntax is:
