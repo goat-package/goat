@@ -1,4 +1,4 @@
-<h1> A Data-Centric Interaction Skeleton for CAS in the Go Language </h1>
+# A Data-Centric Interaction Skeleton for CAS in the Go Language
 
 ## What are attributes?
 Attributes are the key concept of Attribute-based Communication (AbC, see LINK). AbC is a calculus where systems communicate between each other by message passing. Instead of defining a set of point-to-point channels, systems receive message from other systems according to their behaviour (i.e. the attributes): this is a desiderata of Collective Adaptive Systems (CASs).
