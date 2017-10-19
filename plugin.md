@@ -95,4 +95,95 @@ The `[attr1 := expr_a1, attr2 := expr_a2, ..., attrm := expr_am]` part updates t
 > **Note 3:** The print part is to be used only for debugging purpouses. The printing format might change in the future.
 
 #### `receive`
-The `receive` statement is used to receive a message. It has two possible syntaxes:
+The `receive` statement is used to receive a message. It has two possible syntaxes.
+
+The first syntax is:
+
+```
+receive (pred) {lattr1, lattr2, ..., lattrn} [attr1 := expr1, attr2 := expr2, ..., attrm := exprm] print ("output");
+```
+
+This statement accepts the first message that satisfies the `pred` predicate and has exactly n parts. Then, the part i is assigned to the local attribute `attri`. If the received message does not can not be accepted, it is discarded and the process waits for another message.
+
+The `[attr1 := expr1, attr2 := expr2, ..., attrm := exprm]` part updates the component or local attributes to the evaluation of the corresponding expressions. It is possible to access component attributes by prepending `comp.` to the name of the attribute. It is possible to access local attributes by prepending `proc.` to the name of the attribute. This part can be omitted if the attributes do not change.
+> **Note:** Make sure that the component or local attributes you are referring in `expr`s exist. Otherwise, the component will crash at runtime.
+
+`print("output")` prints on the standard output the specified string after sending the message. Inside the string, it is possible to get the value of a local attribute (e.g. `x`) by writing its name between dollar signs (e.g. `$x$`). It is possible to get the value of a component attribute (e.g. `a`) by writing its name prefixed with `comp.` between dollar signs (e.g. `$comp.a$`). Even this part is optional, and if omitted after the send nothing will be printed out.
+
+The other syntax is:
+```
+receive {
+    case (pred1) {lattr1_1, lattr1_2, ..., lattr1_n1} [attr1_1 := expr1_1, attr1_2 := expr1_2, ..., attr1_m := expr1_m1] print ("output1"): {
+        ... statements1 ...
+    }
+    
+    case (pred2) {lattr2_1, lattr2_2, ..., lattr2_n2} [attr2_1 := expr2_1, attr2_2 := expr2_2, ..., attr2_l := expr2_m2] print ("output2"): {
+        ... statements2 ...
+    }
+    
+    ...
+} 
+```
+
+This statement accepts the first message that satisfies `predj` where `predj` is a predicate stated in one of the cases. If more than one is satisfied, then we consider the one with the lowest `j`. It is similar to a `switch ... case` statement used in many imperative languages. Then, it saves the message parts, updates the environment and prints a message as explained for the first syntax of `receive`. After, the statements `statementsj` are executed. If the received message does not satisfy any of the predicates, it is discarded and the process waits for another message.
+
+#### `waitfor`
+The `waitfor` statement waits until a condition is satisfied or a period of time is elapsed. Any message received while waiting is discarded. 
+
+Its syntax is:
+
+```
+waitfor(cond)[attr1 := expr1, attr2 := expr2, ..., attrm := exprm] print ("output");
+```
+
+`cond` can be:
+* a predicate over local and component attributes, accessed prepending `proc.` or `comp.` to the name of the attribute
+* an integer constant stating the number of milliseconds to wait
+
+The `[attr1 := expr1, attr2 := expr2, ..., attrm := exprm]` part updates the component or local attributes to the evaluation of the corresponding expressions. It is possible to access component attributes by prepending `comp.` to the name of the attribute. It is possible to access local attributes by prepending `proc.` to the name of the attribute. This part can be omitted if the attributes do not change.
+> **Note:** Make sure that the component or local attributes you are referring in `expr`s exist. Otherwise, the component will crash at runtime.
+
+`print("output")` prints on the standard output the specified string after sending the message. Inside the string, it is possible to get the value of a local attribute (e.g. `x`) by writing its name between dollar signs (e.g. `$x$`). It is possible to get the value of a component attribute (e.g. `a`) by writing its name prefixed with `comp.` between dollar signs (e.g. `$comp.a$`). Even this part is optional, and if omitted after the send nothing will be printed out.
+
+#### `set`
+The `set` statement updates the set of local and global attributes. 
+
+Its syntax is:
+
+```
+set [attr1 := expr1, attr2 := expr2, ..., attrm := exprm] print ("output");
+```
+
+The `[attr1 := expr1, attr2 := expr2, ..., attrm := exprm]` part updates the component or local attributes to the evaluation of the corresponding expressions. It is possible to access component attributes by prepending `comp.` to the name of the attribute. It is possible to access local attributes by prepending `proc.` to the name of the attribute. This part can be omitted if the attributes do not change.
+> **Note:** Make sure that the component or local attributes you are referring in `expr`s exist. Otherwise, the component will crash at runtime.
+
+`print("output")` prints on the standard output the specified string after sending the message. Inside the string, it is possible to get the value of a local attribute (e.g. `x`) by writing its name between dollar signs (e.g. `$x$`). It is possible to get the value of a component attribute (e.g. `a`) by writing its name prefixed with `comp.` between dollar signs (e.g. `$comp.a$`). Even this part is optional, and if omitted after the send nothing will be printed out.
+
+#### `loop`
+The `loop` statement repeats endlessly a sequence of statements. Its syntax is:
+
+```
+loop {
+    ... statements to repeat ...
+}
+```
+
+#### `if`
+
+#### `call`
+The `call` statement executes the code of another process. Its syntax is:
+
+```
+call(P)
+```
+
+`P` is the name of a process. `P` will inherit the set of local attributes of the current process. The control will not return to the current process, so any statements written after `call` will not be executed.
+
+#### `spawn`
+The `spawn` statement ceates a new process that executes the code of some process. Its syntax is:
+
+```
+spawn(P)
+```
+
+`P` is the name of a process. `P` will inherit a copy of the set of local attributes of the current process. The current process and the process just created will run concurrently on the same component. As any other pair of process, they share component attributes but not the set of local attributes.
