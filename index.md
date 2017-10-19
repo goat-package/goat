@@ -1,5 +1,6 @@
 ---
 title: GoAt: A Data-Centric Interaction Skeleton for CAS in the Go Language
+layout: post
 ---
 
 ## What are attributes?
