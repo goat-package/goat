@@ -239,11 +239,12 @@ The component is defined as:
 
 ### Functions and expressions
 In attribute updates, predicates and message parts, it is possible to use values that depend on attributes. To describe them it is possible to use an expression language. The expressions are typed, and three types are defined: integers (`int`), booleans (`bool`) and strings (`string`). The operation defined are: 
+
 | Operators | Applicable types | Return type |
 |---|---|---|
 | `<`, `<=`, `>`, `>=` | `int`, `string` | `bool` |
 | `==`, `!=` | `int`, `string`, `bool` | `bool` |
-| `&&` , `||` | `bool` | `bool` |
+| `&&` , `\|\|` | `bool` | `bool` |
 | `+`, `-`, `*`, `/`, `%` | `int` | `int` |
 | `++` (concatenation) | `string` | `string` |
 
