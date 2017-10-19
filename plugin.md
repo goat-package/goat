@@ -108,7 +108,9 @@ This statement accepts the first message that satisfies the `pred` predicate and
 The `[attr1 := expr1, attr2 := expr2, ..., attrm := exprm]` part updates the component or local attributes to the evaluation of the corresponding expressions. It is possible to access component attributes by prepending `comp.` to the name of the attribute. It is possible to access local attributes by prepending `proc.` to the name of the attribute. This part can be omitted if the attributes do not change.
 > **Note:** Make sure that the component or local attributes you are referring in `expr`s exist. Otherwise, the component will crash at runtime.
 
-`print("output")` prints on the standard output the specified string after sending the message. Inside the string, it is possible to get the value of a local attribute (e.g. `x`) by writing its name between dollar signs (e.g. `$x$`). It is possible to get the value of a component attribute (e.g. `a`) by writing its name prefixed with `comp.` between dollar signs (e.g. `$comp.a$`). Even this part is optional, and if omitted after the send nothing will be printed out.
+> **Tip:** You can set component attributes to received values by using the update part: first save the message part in a fresh local attribute, then copy it in the component attribute. For example, `receive(true){x}[comp.x := proc.x];` saves in the component attribute x the content of the first message received that has only one part.
+
+`print("output")` prints on the standard output the specified string after receiving a suitable message. Inside the string, it is possible to get the value of a local attribute (e.g. `x`) by writing its name between dollar signs (e.g. `$x$`). It is possible to get the value of a component attribute (e.g. `a`) by writing its name prefixed with `comp.` between dollar signs (e.g. `$comp.a$`). Even this part is optional, and if omitted after the reception nothing will be printed out.
 
 The other syntax is:
 ```
@@ -143,7 +145,7 @@ waitfor(cond)[attr1 := expr1, attr2 := expr2, ..., attrm := exprm] print ("outpu
 The `[attr1 := expr1, attr2 := expr2, ..., attrm := exprm]` part updates the component or local attributes to the evaluation of the corresponding expressions. It is possible to access component attributes by prepending `comp.` to the name of the attribute. It is possible to access local attributes by prepending `proc.` to the name of the attribute. This part can be omitted if the attributes do not change.
 > **Note:** Make sure that the component or local attributes you are referring in `expr`s exist. Otherwise, the component will crash at runtime.
 
-`print("output")` prints on the standard output the specified string after sending the message. Inside the string, it is possible to get the value of a local attribute (e.g. `x`) by writing its name between dollar signs (e.g. `$x$`). It is possible to get the value of a component attribute (e.g. `a`) by writing its name prefixed with `comp.` between dollar signs (e.g. `$comp.a$`). Even this part is optional, and if omitted after the send nothing will be printed out.
+`print("output")` prints on the standard output the specified string after waiting. Inside the string, it is possible to get the value of a local attribute (e.g. `x`) by writing its name between dollar signs (e.g. `$x$`). It is possible to get the value of a component attribute (e.g. `a`) by writing its name prefixed with `comp.` between dollar signs (e.g. `$comp.a$`). Even this part is optional, and if omitted nothing will be printed out.
 
 #### `set`
 The `set` statement updates the set of local and global attributes. 
@@ -157,7 +159,7 @@ set [attr1 := expr1, attr2 := expr2, ..., attrm := exprm] print ("output");
 The `[attr1 := expr1, attr2 := expr2, ..., attrm := exprm]` part updates the component or local attributes to the evaluation of the corresponding expressions. It is possible to access component attributes by prepending `comp.` to the name of the attribute. It is possible to access local attributes by prepending `proc.` to the name of the attribute. This part can be omitted if the attributes do not change.
 > **Note:** Make sure that the component or local attributes you are referring in `expr`s exist. Otherwise, the component will crash at runtime.
 
-`print("output")` prints on the standard output the specified string after sending the message. Inside the string, it is possible to get the value of a local attribute (e.g. `x`) by writing its name between dollar signs (e.g. `$x$`). It is possible to get the value of a component attribute (e.g. `a`) by writing its name prefixed with `comp.` between dollar signs (e.g. `$comp.a$`). Even this part is optional, and if omitted after the send nothing will be printed out.
+`print("output")` prints on the standard output the specified string after the update. Inside the string, it is possible to get the value of a local attribute (e.g. `x`) by writing its name between dollar signs (e.g. `$x$`). It is possible to get the value of a component attribute (e.g. `a`) by writing its name prefixed with `comp.` between dollar signs (e.g. `$comp.a$`). Even this part is optional, and if omitted nothing will be printed out.
 
 #### `loop`
 The `loop` statement repeats endlessly a sequence of statements. Its syntax is:
