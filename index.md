@@ -1,5 +1,8 @@
 # Attribute-based Interaction in Google Go
 
+## How to use GoAt
+To use GoAt, there is a fully configured [virtual machine](https://drive.google.com/open?id=0B9zaHQRMT9M3LVRUcXJnNG1EdXM) with all the tools needed properly set up.
+
 ## What are attributes?
 Attributes are the key concept of Attribute-based Communication (AbC, see LINK). AbC is a calculus where systems communicate between each other by message passing. Instead of defining a set of point-to-point channels, systems receive message from other systems according to their behaviour (i.e. the attributes): this is a desiderata of Collective Adaptive Systems (CASs).
 
@@ -88,7 +91,3 @@ CASs that take advantage of AbC can be implemented either using the GoAt's API a
 We provide two possible ways to implement system:
 * using an Eclipse plugin; [tutorial](plugin.md)
 * using the GoAt library directly and the Go language; [tutorial](library.md)
-
-## How to use GoAt
-To use GoAt, there is a fully configured [virtual machine](https://drive.google.com/open?id=0B9zaHQRMT9M3d3pIbFhQRkpQYlU
-) with all the tools needed properly set up.
