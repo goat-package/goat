@@ -13,10 +13,6 @@ This simple example exposes some strengths of AbC:
 2. Scalability: teachers do not send a copy of the lesson to each student. Moreover, a third lesson (e.g. biology) can be held a the same time without changing anything in the protocol.
 
 
-## What is Go?
-TODO
-
-
 ## How do components exchange messages?
 AbC does not state how messages are actually exchanged; the only requirement is that if a component is expected to receive a message, eventually it will be delivered and messages are delivered in the same order among the components. In GoAt, the set of software and logics behind the actual message exchange is called infrastructure. The infrastructure delivers a message to any component attached to it, by using TCP connections. The infrastructure, in order to enhance scalability, is implemented as a distributed system. 
 
