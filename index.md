@@ -87,3 +87,6 @@ CASs that take advantage of AbC can be implemented either using the GoAt's API a
 We provide two possible ways to implement system:
 * using an Eclipse plugin; [tutorial](plugin.md)
 * using the GoAt library directly and the Go language; [tutorial](library.md)
+
+## Stable Allocation
+[Stable Allocation](stable_allocation.pdf)
