@@ -7,7 +7,7 @@ The skeleton of a component definition follows:
     package main
 
     import (
-        "goat-plugin/goat/goat"
+        "github.com/goat-pakage/goat/goat"
     )
 
     func main(){
@@ -51,7 +51,7 @@ As an example, let's see how we can model a teacher of chemistry that is holding
     package main
 
     import (
-        "goat-plugin/goat/goat"
+        "github.com/goat-pakage/goat/goat"
     )
 
     type Question struct {
@@ -98,7 +98,7 @@ Now, the following program models a chemistry students that attends the lesson a
     package main
 
     import (
-        "goat-plugin/goat/goat"
+        "github.com/goat-pakage/goat/goat"
     )
 
     func main(){
@@ -167,7 +167,7 @@ It can be instantiated with:
     package main
 
     import (
-        "goat-plugin/goat/goat"
+        "github.com/goat-pakage/goat/goat"
     )
 
     func main(){
@@ -192,7 +192,7 @@ The following code is used to instantiate the registration node
 	package main
 
 	import (
-	    "goat-plugin/goat/goat"
+	    "github.com/goat-pakage/goat/goat"
 	)
 
 	func main(){
@@ -208,7 +208,7 @@ The following code instantiates the message queue
 	package main
 
 	import (
-	    "goat-plugin/goat/goat"
+	    "github.com/goat-pakage/goat/goat"
 	)
 
 	func main(){
@@ -223,7 +223,7 @@ The following code instantiates the provider of fresh message ids
 	package main
 
 	import (
-	    "goat-plugin/goat/goat"
+	    "github.com/goat-pakage/goat/goat"
 	)
 
 	func main(){
@@ -238,7 +238,7 @@ The following code instantiates a serving node
 	package main
 
 	import (
-	    "goat-plugin/goat/goat"
+	    "github.com/goat-pakage/goat/goat"
 	)
 
 	func main(){
@@ -264,7 +264,7 @@ The following code is used to instantiate the registration node
 	package main
 
 	import (
-	    "goat-plugin/goat/goat"
+	    "github.com/goat-pakage/goat/goat"
 	)
 
 	func main(){
@@ -280,7 +280,7 @@ The following code instantiates the provider of fresh message ids
 	package main
 
 	import (
-	    "goat-plugin/goat/goat"
+	    "github.com/goat-pakage/goat/goat"
 	)
 
 	func main(){
@@ -295,7 +295,7 @@ The following code instantiates a serving node
 	package main
 
 	import (
-	    "goat-plugin/goat/goat"
+	    "github.com/goat-pakage/goat/goat"
 	)
 
 	func main(){
@@ -316,7 +316,7 @@ The following code is used to instantiate the registration node
 	package main
 
 	import (
-	    "goat-plugin/goat/goat"
+	    "github.com/goat-pakage/goat/goat"
 	)
 
 	func main(){
@@ -332,7 +332,7 @@ The following code instantiates the root node
 	package main
 
 	import (
-	    "goat-plugin/goat/goat"
+	    "github.com/goat-pakage/goat/goat"
 	)
 
 	func main(){
@@ -349,7 +349,7 @@ The following code instantiates the a non-root serving node
 	package main
 
 	import (
-	    "goat-plugin/goat/goat"
+	    "github.com/goat-pakage/goat/goat"
 	)
 
 	func main(){
