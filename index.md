@@ -1,7 +1,7 @@
 # Attribute-based Interaction in Google Go
 
 ## A Virtual Machine with Goat
-We have already setup a machine to experiment with the goat API and the goat plugin. The plugin is a standalone application installed in the virtual machine. You only need to run and start working with directly. The virtual machine can be found here: [virtual machine](https://drive.google.com/open?id=0B9zaHQRMT9M3LVRUcXJnNG1EdXM).
+We have already setup a machine to experiment with the goat API and the goat plugin. The plugin is a standalone application installed in the virtual machine. You only need to run and start working with directly. The virtual machine can be found here: [virtual machine](https://drive.google.com/open?id=0B9zaHQRMT9M3LVRUcXJnNG1EdXM). In the plugin, we also provide ready intersting examples, namely Stable Allocation and Smart Conference System. We will explain the first one in detail in this tutorial.
 
 ## What are attributes?
 Attributes are the key concept of Attribute-based Communication (AbC, see [here](https://link.springer.com/chapter/10.1007%2F978-3-319-39570-8_1)). AbC is a calculus where systems communicate between each other by message passing. Instead of defining a set of point-to-point channels, systems receive message from other systems according to their behaviour (i.e. the attributes): this is a desiderata of Collective Adaptive Systems (CASs).
