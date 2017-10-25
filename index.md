@@ -26,7 +26,7 @@ CAS that take advantage of AbC can be implemented either using the GoAt's API an
 Below we discuss Goat, its plugin, and the supported infrastructures:
 * The Eclipse plugin; [tutorial](plugin.md)
 * The GoAt API in Google Go; [tutorial](library.md)
-* The supported infrastructures; [link](infrastructure.md)
+* The supported infrastructures; [tutorial](infrastructure.md)
 
 ## Stable Allocation
 [Stable Allocation](stable_allocation.pdf)
