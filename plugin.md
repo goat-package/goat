@@ -45,7 +45,7 @@ component {} : Q
 ```
 This code describes:
 * a centralised infrastructure whose address is `127.0.0.1:17654`;
-* a system made of two component, where one sends `hello world` to the other, using the infrastructure.
+* a system made of two components, where one sends `hello world` to the other, using the infrastructure.
 
 The plugin offers an editor with syntax higlighting and error checking. Try, for example, to change `send` to `sed` and you will get an error.
 
@@ -264,9 +264,6 @@ The avaliable statements are:
 * condition: `if ... else if ... else` whose behavior is the standard one.
 
 Inside function is possible to use expressions that refer to parameters or variables. It is also possible to use function calls (even recursive ones).
-
-## Patterns
-TODO
 
 ## Defining infrastructures
 This section describes how to define infrastructure in `.ginf` files. Infrastructures are what make the components actually communicate. Their role is to distribute messages from a component to all the others. There are four types of infrastructures: centralized, cluster, ring and tree. The syntax of a `.ginf` file is:
