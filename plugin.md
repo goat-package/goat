@@ -342,3 +342,6 @@ The following table contains the list of parameters.
     <td>Depth-first visit of the tree. E.g. "127.0.0.1:14000" [ "127.0.0.1:14001" [ "127.0.0.1:14002", "127.0.0.1:14003"], "127.0.0.1:14004" ], where the root is "127.0.0.1:14000" and its children are "127.0.0.1:14001" and "127.0.0.1:14004".</td>
   </tr>
 </table>
+
+# An Example: Stable Allocation
+[Stable Allocation](stable_allocation.pdf)
