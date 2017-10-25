@@ -28,5 +28,3 @@ Below we discuss Goat, its plugin, and the supported infrastructures:
 * The GoAt API in Google Go; [tutorial](library.md)
 * The supported infrastructures; [tutorial](infrastructure.md)
 
-## Stable Allocation
-[Stable Allocation](stable_allocation.pdf)
