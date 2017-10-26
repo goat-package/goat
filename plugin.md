@@ -368,11 +368,15 @@ A Fragment of the Unit behavior where a unit propose to be paired to a cluster w
 
 ![Behavrior](unitbehavior.png)
 
+![fragment](proposal.png)
+
 Notice that a unit can han l number of proposal variants by relying on non-determinism and the value of attribute ref. The unit can start with high expectation and keeps lowering until it is paired into a Cluster. 
 
 A Fragment of the Cluster behavior wehre a cluster recieve a proposal is shown below:
 
 ![Behavior](clusterbehavior.png)
+
+![fragment](recieveprop.png)
 
 Notice that the cluster can receive any proposal and only accept proposal that enhances its satisfaction level.
 
