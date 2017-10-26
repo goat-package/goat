@@ -12,23 +12,29 @@ The skeleton of a component definition follows:
 
     func main(){
         environment := map[string]interface{}{...}
-        agent := goat.New...Agent(...)
+        agent := ...
         comp := goat.NewComponentWithAttributes(agent, environment)
         goat.NewProcess(comp).Run(func(p *goat.Process) {
             ...
 	    })
     }
 
-`environment` is a map that contains the set of attributes (and corresponding values) that the component has at startup. Attribute names must be strings, while the associated values can be of any type. Note that associating an attribute to `nil` is not the same as not having that attribute associated to anything. `agent` is the agent that acts as an adapter between the infrastructure and the component. It's constructor is different according to the infrastructure that the component participates to:
+`environment` is a map that contains the set of attributes (and corresponding values) that the component has at startup. Attribute names must be strings, while the associated values can be of any type. Note that associating an attribute to `nil` is not the same as not having that attribute associated to anything. `agent` acts as an adapter between the infrastructure and the component. It can be seen as the access point to the infrastructure from the component. It's constructor differs according to the infrastructure that the component participates to:
 
 Infrastructure | Agent constructor |
 ---|---|
-Single Server | `goat.NewSingleServerAgent(serverAddress)` |
-Cluster | `goat.NewClusterAgent(messageQueueAddress, registrationAddress)` |
-Ring | `goat.NewRingAgent(registrationAddress)` |
-Tree | `goat.NewTreeAgent(registrationAddress)` |
+Single Server | `goat.NewSingleServerAgent(serverAddressAndPort)` |
+Cluster | `goat.NewClusterAgent(messageQueueAddressAndPort, registrationAddressAndPort)` |
+Ring | `goat.NewRingAgent(registrationAddressAndPort)` |
+Tree | `goat.NewTreeAgent(registrationAddressAndPort)` |
 
-`comp` is the component. It contains both the dynamic behaviour (the process) and the set of attributes (called environment). Its constructor `goat.NewComponentWithAttributes` requires to state both the agent you want to use (hence, indirectly, which infrastructure you are connecting to) and the initial setup of the environment. If you do not want to set any attributes at the beginning, you can use the `goat.NewComponent` constructor whose only parameter is the agent. Note that an agent must be associated with at most one component: that is, for each component you have to instantiate one different agent. ` goat.NewProcess(comp).Run(func(p *goat.Process) {...})` sets up the behaviour of the component and starts it. The ellipsis must be replaced by the behaviour you want that component to have. `p` represents the `goat.Process` object, that is the access point to the functions that allows the specification of the behaviour.
+`comp` is the component. It contains both the dynamic behaviour (the process) and its state (the set of attributes, called environment). You can create a component by calling:
+* `goat.NewComponentWithAttributes(agent, environment)`, to create a new component linked to the infrastructure via the agent `agent`; its environment is set according to the map `environment`;
+* `goat.NewComponent`, to create a new component linked to the infrastructure via the agent `agent`; its environment empty.
+
+Note that an agent must be associated with at most one component: that is, for each component you have to instantiate one different agent. 
+
+` goat.NewProcess(comp).Run(func(p *goat.Process) {...})` sets up the behaviour of the component and starts it. The ellipsis must be replaced by the behaviour you want that component to have. `p` represents the `goat.Process` object, that is the access point to the functions that allows the specification of the behaviour.
 #### How to define a process with the `goat.Process` API?
 The `goat.Process` API was designed to match as much as possible the AbC constructs. In the following, we assume that `proc` is an object of type `goat.Process`.
 
