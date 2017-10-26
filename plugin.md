@@ -370,7 +370,7 @@ A Fragment of the Unit behavior where a unit propose to be paired to a cluster w
 
 ![fragment](proposal.png)
 
-Notice that a unit can han l number of proposal variants by relying on non-determinism and the value of attribute ref. The unit can start with high expectation and keeps lowering until it is paired into a Cluster. 
+Notice that a unit can have "l" number of proposal variants by relying on non-determinism and the value of attribute ref. The unit can start with high expectation and keeps lowering until it is paired into a Cluster. 
 
 A Fragment of the Cluster behavior wehre a cluster recieve a proposal is shown below:
 
