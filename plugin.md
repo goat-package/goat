@@ -364,9 +364,20 @@ Allowing new arrivals is crucial to guarantee scalability and open-endedness whi
 ![Unit Component](unt.png)
 ![Cluster Component](cluster.png)
 
+A Fragment of the Unit behavior where a unit propose to be paired to a cluster with high rating is shown below:
+![Behavrior](unitbehavior)
+
+Notice that a unit can han l number of proposal variants by relying on non-determinism and the value of attribute ref. The unit can start with high expectation and keeps lowering until it is paired into a Cluster. 
+
+A Fragment of the Cluster behavior wehre a cluster recieve a proposal is shown below:
+
+![Behavior](clusterbehavior)
+
+Notice that the cluster can receive any proposal and only accept proposal that enhances its satisfaction level.
+
 In the original SMP, the authors showed that their algorithm terminates with a matching that is stable after no more than n^2 proposals, where n is the number of proposing elements, i.e., the algorithm has O(n^2) worst-case complexity. In our variant, it should be clear that the worst case complexity is also O(n^2) even after relaxing the assumptions of the original algorithm, i.e., no predefined preference lists and components are not aware of the existence of each other, so point-to-point communication is not possible. Interestingly, the complexity is still quadratic even if we consider a blind broadcast mechanism where proposals are sent to all components in the system except for the sender unit. In this way, for $n$-units, $n$-clusters, and l-preferences of a unit where l represents the number of branches in the proposal process I, we have that each unit can send l(2n-1) proposals. 
 
 
 
-
+The full specifications are provided below:
 [Stable Allocation](stable_allocation.pdf)
