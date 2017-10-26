@@ -340,5 +340,33 @@ The following table contains the list of parameters.
   </tr>
 </table>
 
-# An Example: Stable Allocation
+# An Example: Stable Allocation in Content Delivery Network
+
+This case study is based on the distributed stable allocation algorithm adopted by Akamai's Content Delivery Network (CDN) [See](https://www.akamai.com/fr/fr/multimedia/documents/technical-publication/algorithmic-nuggets-in-content-delivery-technical-publication.pdf). 
+ 
+ Akamai's CDN is one of the largest distributed systems in the world. It has currently over 170,000 server located in over 1300 networks in 102 countries and serves 15-30% of all Web traffic. To avoid dealing with billions of clients individually, Akamai divides the clients of the global internet into groups, called map units each having a specific demand, based on their locations and traffic types. Also content servers are grouped into clusters, and  each cluster is rated according to its capacity, latency, etc. Map units prefer highly rated clusters while clusters prefer low demand map units. The goal of global load balancing is to assign map units to clusters such that preferences are accounted for and constraints are met. 
+
+The allocation algorithm of Akamai is a slight variant of the original Stable Marriage Problem (SMP), [see](http://www.jstor.org/stable/2312726). The goal of the original algorithm is to find a stable matching between two equally sized sets of elements given an ordering of preferences of each element of the two sets. Each element in one set has to be paired to an element in the opposite set in such a way that there are no two elements of different pairs which both would rather have each other than their current partners. When there are no such pairs of elements, the set of pairs is deemed stable.
+
+The variant of Akamai allows (1) more map units to be assigned to a single cluster and  (2) map units to rank only the top dozen, or so, clusters that are likely to provide good performance. The first feature is a typical generalisation of the original SMP, while the second is a mere simplification of the problem. Implementing these features in GoAt does not pose any challenge, but it would make the example more verbose. Furthermore, these features do not add much to the original SMP; they still require map units and clusters to have predefined lists of preferences such that only ranked elements can participate in the algorithm. Obviously, this implies that one cannot take advantage of dynamic creation of new clusters.
+
+We consider a more interesting variant of SMP that is better suited for the dynamicity of CDN. In this variant, the arrival of new clusters is considered, it is not required that elements know each other, and no predefined preference list is assumed. Notice that, in these settings, point-to-point interaction is not possible because elements are not aware of each other and the choice of implicit multicast is crucial. Indeed, in our variant, elements express their interests in potential partners by relying on their attributes rather than on their identities.  In essence, an element of one set communicates with elements of the opposite set using predicates. Two parties that agree on some predicates form a pair, otherwise they keep looking for better partners. A pair splits only if one of its elements can find a better partner willing to accept its offer. In this way, preferences are represented as predicates over the values of some attributes of the interacting partners.
+
+In this scenario, we consider the values of attributes demand, for a map unit, and rating, for a cluster, as a means to derive the interaction. For simplicity, these attributes can take two different values: high (H) and low (L). An element in the system can be either a Unit or a Cluster. Units start the protocol by communicating with clusters in the quest of 
+finding an 
+element that satisfies their highest expectations. If no cluster accepts the offer, a unit lowers its expectations and proposes again until a partner is found. Clusters are always willing to accept proposals from any unit that enhances their levels of satisfaction. In case of a new arrival, some pairs of elements might dissolve if the new arrival enhances their levels of satisfaction. This means that not all pairs in the system are required to split on new arrivals; only those interested will do so. The system level goal (the emergent behaviour) is to construct a set of stable pairs from elements of different types by combining the behaviour of individual elements in the system through message passing. Mathematically speaking, the problem consists of computing a function at the system level by combining individual element behaviours, without relying on a centralised control.  
+Notice that since map units initiate the interaction, the solution is a map-unit-optimal, as proved in the original SMP, which is a property that fits with the CDN's goal of maximising performance for clients.
+
+Allowing new arrivals is crucial to guarantee scalability and open-endedness while communicating based on predicates rather than on identities or ranks is crucial to deal with anonymity. 
+ 
+ The system in our attribute-based scenario can be modelled in Goat as the parallel composition of existing units and clusters. Notice that units and clusters interact in a distributed setting without any centralised control. Each element is represented as a \Goat component. Below we show an example of a Unit and a Cluster:
+
+![Unit Component](unt.png)
+![Cluster Component](cluster.png)
+
+In the original SMP, the authors showed that their algorithm terminates with a matching that is stable after no more than n^2 proposals, where n is the number of proposing elements, i.e., the algorithm has O(n^2) worst-case complexity. In our variant, it should be clear that the worst case complexity is also O(n^2) even after relaxing the assumptions of the original algorithm, i.e., no predefined preference lists and components are not aware of the existence of each other, so point-to-point communication is not possible. Interestingly, the complexity is still quadratic even if we consider a blind broadcast mechanism where proposals are sent to all components in the system except for the sender unit. In this way, for $n$-units, $n$-clusters, and l-preferences of a unit where l represents the number of branches in the proposal process I, we have that each unit can send l(2n-1) proposals. 
+
+
+
+
 [Stable Allocation](stable_allocation.pdf)
