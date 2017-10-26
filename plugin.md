@@ -365,13 +365,14 @@ Allowing new arrivals is crucial to guarantee scalability and open-endedness whi
 ![Cluster Component](cluster.png)
 
 A Fragment of the Unit behavior where a unit propose to be paired to a cluster with high rating is shown below:
-![Behavrior](unitbehavior)
+
+![Behavrior](unitbehavior.png)
 
 Notice that a unit can han l number of proposal variants by relying on non-determinism and the value of attribute ref. The unit can start with high expectation and keeps lowering until it is paired into a Cluster. 
 
 A Fragment of the Cluster behavior wehre a cluster recieve a proposal is shown below:
 
-![Behavior](clusterbehavior)
+![Behavior](clusterbehavior.png)
 
 Notice that the cluster can receive any proposal and only accept proposal that enhances its satisfaction level.
 
