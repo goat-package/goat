@@ -76,7 +76,7 @@ process P {
 `P` is the name of the process. The statements are executed one after another, and when the last statement terminates the process terminates. The available statements are: `send`, `receive`, `waitfor`, `set`, `if`, `call`, `spawn` and `loop`.
 It is also possible to define a process as the parallel composition of a set of processes, using:
 
-```process P = P1 | P2 | ... | Pn`
+```process P = P1 | P2 | ... | Pn```
 
 #### `send`
 The `send` statement is used to send a message. Its syntax is 
@@ -244,7 +244,7 @@ In attribute updates, predicates and message parts, it is possible to use values
 |---|---|---|
 | `<`, `<=`, `>`, `>=` | `int`, `string` | `bool` |
 | `==`, `!=` | `int`, `string`, `bool` | `bool` |
-| `&&` , `\|\|` | `bool` | `bool` |
+| `&&` , `||` | `bool` | `bool` |
 | `+`, `-`, `*`, `/`, `%` | `int` | `int` |
 | `++` (concatenation) | `string` | `string` |
 
