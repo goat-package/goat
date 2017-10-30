@@ -180,7 +180,7 @@ func answerQuestion(question string, asker int) func(proc *goat.Process) {
 	}
 }
 ```
->
+
 
 > **Note 5:** this is a _wrong_ solution for the example:
 ```go
