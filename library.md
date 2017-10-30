@@ -153,6 +153,7 @@ for !stop {
 > **Note 4:** any modifications made to the environment are lost if `acceptFnc` does not accept the message.
 
 > **Example:** we model the teacher that accepts questions and answers them. When it perceives a question, it spawns another process to answer it. It also keeps track of the number of pending questions. 
+
 ```go
 func listenQuestions(proc *goat.Process){
 	for{
@@ -180,6 +181,7 @@ func answerQuestion(question string, asker int) func(proc *goat.Process) {
 	}
 }
 ```
+
 
 > **Note 5:** this is a _wrong_ solution for the example:
 ```go
