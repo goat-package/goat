@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/giulio-garbi/goat/goat"
+	"github.com/goat-package/goat/goat"
 	"math/rand"
 )
 
