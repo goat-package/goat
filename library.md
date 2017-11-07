@@ -243,6 +243,167 @@ Each case is expressed with a call to `goat.Case(pred, action, then)`. `pred` is
 
 `then` is a function without parameters that is executed if the case has success.
 
+#### Modelling the classroom example
+Now we see the classroom example in full. We describe briefly each part. At LINK it is available the full code.
+
+##### Student
+A Student is initialised with a call to `createStudent`:
+
+```go
+func createStudent(id int, subject string) *Student{
+	environment := map[string]interface{}{
+		"listening": subject,
+		"id": id,
+	}
+	agent := goat.NewSingleServerAgent("127.0.0.1:17000")
+	return &Student{id, goat.NewComponentWithAttributes(agent, environment)}
+}
+```
+`id` is the unique identifier of a student. Each student must have a different `id`. `subject` is the subject that the student will attend at the beginning.
+
+A student is run with a call to `start`:
+
+```go
+func (s *Student) start(){
+	goat.NewProcess(s.comp).Run(func(proc *goat.Process){
+		proc.Spawn(listen)
+		proc.Spawn(changeSubject)
+		proc.Call(askQuestions)
+	})
+}
+```
+Three processes are run in parallel on each student's component: `listen`, `changeSubject` and `askQuestions`.
+
+`listen` listens to a lesson part that is relevant for it.
+
+```go
+func listen(proc *goat.Process){
+	for{
+		lessonPart := proc.Receive(func(attr *goat.Attributes, msg goat.Tuple) bool {
+			return msg.IsLong(2) && msg.Get(0) == "lesson"
+		})
+		fmt.Println("New lesson part: ", lessonPart.Get(1))
+	}
+}
+```
+
+`changeSubject` changes the subject that the student is attending at random time intervals (whose average is 10 seconds).
+
+```go
+func changeSubject(proc *goat.Process){
+	for {
+	    // Time to change subject
+	    proc.Sleep(int(rand.ExpFloat64() * 10000))
+	    var newSubject string
+	    switch(rand.Intn(3)){
+	        case 0:
+	            newSubject = "chemistry"
+                case 1:
+                    newSubject = "physics"
+                case 2:
+                    newSubject = "math"
+	    }
+	    proc.WaitUntilTrue(func(attr *goat.Attributes) bool{
+	        attr.Set("listening", newSubject)
+	        return true
+	    })
+	}
+}
+```
+
+`askQuestions` generates questions for the lesson. It asks them to the relevant teacher. The `Sleep` role is only to simulate the time to think a question. After asking a question, the student waits for the answer. A student can only ask a question at a time.
+
+```go
+func askQuestions(proc *goat.Process){
+	for {
+	    // Time to generate a question
+	    proc.Sleep(int(rand.ExpFloat64() * 5000))
+	    question := "question"
+		myTeacher := goat.Equals(goat.Receiver("subject"), goat.Comp("listening"))
+		proc.Send(goat.NewTuple("question", question, goat.Comp("id")), myTeacher)
+		myId := 0
+		answer := proc.Receive(func(attr *goat.Attributes, msg goat.Tuple) bool {
+		    myId = attr.GetValue("id").(int)
+		    return msg.IsLong(2) && msg.Get(0) == "answer"
+		})
+		fmt.Printf("%d I asked: question and got: %s\n", myId, answer.Get(1).(string))
+	}
+}
+```
+
+##### Teacher
+A teacher is initialised with a call to `createTeacher`. We assume that a subject cannot be taught by mote than one teacher.
+
+```go
+func createTeacher(subject string) *Teacher{
+	environment := map[string]interface{}{
+		"subject": subject,
+		"questions": 0,
+	}
+	agent := goat.NewSingleServerAgent("127.0.0.1:17000")
+	return &Teacher{goat.NewComponentWithAttributes(agent, environment), subject}
+}
+```
+
+A teacher is run with a call to `start`. A teacher holds a lesson while listening for questions.
+
+```go
+func (t *Teacher) start(){
+	goat.NewProcess(t.comp).Run(func(proc *goat.Process){
+		proc.Spawn(holdLesson(t.subject))
+		proc.Call(listenQuestions)
+	})
+}
+```
+
+The teacher continues its lesson as long as there are no unanswered questions. The lesson parts are directed to the attendees by the predicate. 
+
+```go
+func holdLesson(subject string) func (*goat.Process){
+    return func (proc *goat.Process){
+	    listeningToMe := goat.Equals(goat.Receiver("listening"), goat.Comp("subject"))
+	    for i:=0; ; i++{
+		    proc.WaitUntilTrue(func(attr *goat.Attributes) bool {
+			    return attr.GetValue("questions") == 0
+		    })
+		    proc.Send(goat.NewTuple("lesson", lessonPart(subject, i)), listeningToMe)
+	    }
+	}
+}
+```
+Note that a student will receive the relevant lesson parts without communicating which subject is attending. This means also that the set of sudents can freely change over time. Students and teachers do not know each other.
+
+The listening process follows:
+
+```go
+func listenQuestions(proc *goat.Process){
+	for{
+		question := proc.Receive(func(attr *goat.Attributes, msg goat.Tuple) bool {
+			if msg.IsLong(3) && msg.Get(0) == "question" {
+				attr.Set("questions", attr.GetValue("questions").(int) + 1)
+				return true
+			}
+			return false
+		})
+		questionTxt := question.Get(1).(string)
+		asker := question.Get(2).(int)
+		proc.Spawn(answerQuestion(questionTxt, asker))
+	}
+}
+
+func answerQuestion(question string, asker int) func(proc *goat.Process) {
+	return func(proc *goat.Process){
+		answer := fmt.Sprint("Answer to "+question)
+		isAsker := goat.Equals(goat.Receiver("id"), asker)
+		proc.SendUpd(goat.NewTuple("answer", answer), isAsker, 
+		    func(attr *goat.Attributes){
+		        attr.Set("questions", attr.GetValue("questions").(int) - 1)
+	        })
+	}
+}
+```
+
+
 ## How to instantiate an infrastructure
 Since the infrastructures presented here are distributed, you need to create one program for each node type. Before running the components, you need to make sure that the infrastructure is up and running.
 
