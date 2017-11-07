@@ -244,7 +244,7 @@ Each case is expressed with a call to `goat.Case(pred, action, then)`. `pred` is
 `then` is a function without parameters that is executed if the case has success.
 
 #### Modelling the classroom example
-Now we see the classroom example in full. We describe briefly each part. At LINK it is available the full code.
+Now we see the classroom example in full. We describe briefly each part. [Here](classroom.go) it is available the full code.
 
 ##### Student
 A Student is initialised with a call to `createStudent`:
